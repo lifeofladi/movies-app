@@ -1,6 +1,5 @@
 import React from "react";
 import _ from "lodash";
-import './pagination.css';
 
 const Pagination = props => {
   const {itemsCount, pageSize, currentPage, onPageChange} = props;
@@ -12,19 +11,15 @@ const Pagination = props => {
   
   return (<nav>
     <ul className="pagination">
-      <li className="page-item">
-        <a className="page-link">Prev</a>
-      </li>
       {
         numPages.map(page => (<li key={page} className={page === currentPage
             ? 'page-item active'
             : 'page-item'}>
-          <a className="page-link" onClick={() => onPageChange(page)}>{page}</a>
+          <a className="page-link" onClick={() => onPageChange(page)} style={{
+              cursor: 'pointer'
+            }}>{page}</a>
         </li>))
       }
-      <li className="page-item">
-        <a className="page-link">Next</a>
-      </li>
     </ul>
   </nav>);
 };
