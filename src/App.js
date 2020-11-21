@@ -21,7 +21,7 @@ class App extends Component {
   handleLike = (movie) => {
     // clone movies array of objects to avoid mutating state directly
     const movies = [...this.state.movies];
-    // find index of movie objec liked
+    // find index of movie object liked
     const index = movies.indexOf(movie);
     movies[index] = { ...movies[index] }
     
@@ -32,6 +32,14 @@ class App extends Component {
 
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
+  };
+
+  handleNext = currPage => {
+    this.setState({ currentPage: currPage + 1 });
+  };
+
+  handlePrev = currPage => {
+    this.setState({ currentPage: currPage - 1 });
   };
   
   
@@ -53,6 +61,8 @@ class App extends Component {
             onPageChange={this.handlePageChange}
             onLike={this.handleLike}
             onDelete={this.handleDelete}
+            onNext={this.handleNext}
+            onPrev={this.handlePrev}
           />
         </main>
       </React.Fragment>

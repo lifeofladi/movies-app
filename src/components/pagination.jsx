@@ -3,7 +3,7 @@ import React from "react";
 import _ from "lodash";
 
 const Pagination = (props) => {
-  const { count, pageSize, currentPage, onPageChange } = props;
+  const { count, pageSize, currentPage, onPageChange, onNext, onPrev } = props;
   const pageCount = Math.ceil(count / pageSize);
   const numPages = _.range(1, pageCount + 1);
 
@@ -16,7 +16,9 @@ const Pagination = (props) => {
           <a
             href="!#"
             className="page-link"
-            // onClick={}
+            onClick={() =>
+              (numPages.length >= currentPage && currentPage !== 1) ? onPrev(currentPage) : null
+            }
           >
             <i className="fa fa-angle-double-left" aria-hidden="true"></i>
           </a>
@@ -40,7 +42,9 @@ const Pagination = (props) => {
           <a
             href="!#"
             className="page-link"
-            // onClick={}
+            onClick={() =>
+              (numPages.length !== currentPage)?onNext(currentPage) : null
+            }
           >
             <i className="fa fa-angle-double-right" aria-hidden="true"></i>
           </a>

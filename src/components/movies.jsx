@@ -1,14 +1,20 @@
 import React, { Component } from "react";
 import Like from "./like";
 import Pagination from "./pagination";
+import { paginate } from '../utils/paginate';
 
 class Movies extends Component {
 
   render() {
 
-    const {movies, pageSize, currentPage, count, onPageChange, onDelete, onLike} = this.props;
+    const {movies : allMovies, pageSize, currentPage, count, onPageChange, onDelete, onLike, onNext, onPrev} = this.props;
+    
+    //New array of movies objects to paginate from
+    const movies = paginate(allMovies, currentPage, pageSize);
     
     if (!count) return null;
+
+
 
     return (
       <React.Fragment>
@@ -53,6 +59,8 @@ class Movies extends Component {
           pageSize={pageSize}
           currentPage={currentPage}
           onPageChange={onPageChange}
+          onNext={onNext}
+          onPrev={onPrev}
         />
       </React.Fragment>
     );
