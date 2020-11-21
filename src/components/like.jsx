@@ -1,14 +1,17 @@
-import {Component} from "react";
+// import {Component} from "react";
 
 // Stateless Functional Component
-const Like = props => {
+const Like = (props) => {
+  let { liked, onClick } = props;
   let classes = "fa fa-heart";
-  if (!props.liked) 
-    classes += "-o";
-  return (<i onClick={props.onClick} className={classes} style={{
-      cursor: 'pointer'
-    }}/>);
-
+  if (!liked) classes += "-o";
+  return (
+    <i
+      onClick={onClick}
+      className={classes}
+      style={{ cursor: "pointer" }}
+    />
+  );
 };
 
 export default Like;

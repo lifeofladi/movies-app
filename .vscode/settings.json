@@ -1,0 +1,7 @@
+{
+    "files.autoSave": "onWindowChange",
+    "editor.wordWrap": "on",
+    "prettier.insertPragma": true,
+    "prettier.jsxSingleQuote": true,
+    "prettier.singleQuote": true
+}
