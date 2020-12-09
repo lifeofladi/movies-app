@@ -1,15 +1,22 @@
 import React, { Component } from "react";
 import { getMovies } from "./components/services/fakeMovieService";
+import { getGenres } from "./components/services/fakeGenreService";
 import "./App.css";
 import Movies from "./components/movies";
 import NavBar from "./components/navbar";
+import ListGroup from "./components/listgroup";
 
 class App extends Component {
   state = {
-    movies: getMovies(),
+    movies: [],
+    genres: [],
     pageSize: 4,
     currentPage: 1
   };
+
+  componentDidMount() {
+    this.setState({ movies: getMovies(), genres: getGenres() });
+  }
 
   handleDelete = (movie) => {
     //return all the movies that their ID does not match the arg Movie.
@@ -30,7 +37,7 @@ class App extends Component {
     this.setState({ movies });
   };
 
-  handlePageChange = (page) => {
+   handlePageChange = (page) => {
     this.setState({ currentPage: page });
   };
 
@@ -42,28 +49,33 @@ class App extends Component {
     this.setState({ currentPage: currPage - 1 });
   };
   
-  
-
   render() {
-
-    const { movies, pageSize, currentPage } = this.state;
+    const { movies, genres, pageSize, currentPage } = this.state;
     const count = movies.length
 
     return (
       <React.Fragment>
         <NavBar count={ count }/>
         <main className="container">
-          <Movies
-            movies={movies}
-            pageSize={pageSize}
-            currentPage={currentPage}
-            count={count}
-            onPageChange={this.handlePageChange}
-            onLike={this.handleLike}
-            onDelete={this.handleDelete}
-            onNext={this.handleNext}
-            onPrev={this.handlePrev}
-          />
+          <div className="row">
+            <div className="col-3">
+              <ListGroup genres={ genres }/>
+            </div>
+            <div className="col">
+              <Movies
+                movies={movies}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                count={count}
+                onPageChange={this.handlePageChange}
+                onLike={this.handleLike}
+                onDelete={this.handleDelete}
+                onNext={this.handleNext}
+                onPrev={this.handlePrev}
+              />
+            </div>
+          </div>
+          
         </main>
       </React.Fragment>
     );
