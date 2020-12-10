@@ -4,18 +4,22 @@ import { getGenres } from "./components/services/fakeGenreService";
 import "./App.css";
 import Movies from "./components/movies";
 import NavBar from "./components/navbar";
+import Pagination from "./components/pagination";
 import ListGroup from "./components/listgroup";
+import _ from 'lodash';
 
 class App extends Component {
   state = {
     movies: [],
     genres: [],
     pageSize: 4,
-    currentPage: 1
+    currentPage: 1,
+    sortColumn: {path:'title', order:'asc'}
   };
 
   componentDidMount() {
-    this.setState({ movies: getMovies(), genres: getGenres() });
+    const genres = [{ _id:'', name: "All Genres" }, ...getGenres()];
+    this.setState({ movies: getMovies(), genres});
   }
 
   handleDelete = (movie) => {
@@ -48,10 +52,25 @@ class App extends Component {
   handlePrev = currPage => {
     this.setState({ currentPage: currPage - 1 });
   };
+
+  handleGenreSelect = genre => {
+    this.setState({selectedGenre: genre, currentPage: 1});
+  };
+
+  handleSort = sortColumn => {
+    this.setState({sortColumn});
+  };
   
   render() {
-    const { movies, genres, pageSize, currentPage } = this.state;
-    const count = movies.length
+    const { movies, genres, pageSize, currentPage, selectedGenre, sortColumn } = this.state;
+
+     //Array of movies based on selected genre.
+    const filtered = selectedGenre && selectedGenre._id
+      ? movies.filter(m => m.genre._id === selectedGenre._id)
+      : movies;
+    const count = filtered.length;
+    //sort by title(default)
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order])
 
     return (
       <React.Fragment>
@@ -59,17 +78,24 @@ class App extends Component {
         <main className="container">
           <div className="row">
             <div className="col-3">
-              <ListGroup genres={ genres }/>
+              <ListGroup genres={genres} selectedItem={selectedGenre} onItemSelect={ this.handleGenreSelect }/>
             </div>
             <div className="col">
               <Movies
-                movies={movies}
-                pageSize={pageSize}
-                currentPage={currentPage}
-                count={count}
-                onPageChange={this.handlePageChange}
+                sortedMovies={sorted}
+                itemsCount={count}
                 onLike={this.handleLike}
                 onDelete={this.handleDelete}
+                onSort={this.handleSort}
+                currentPage={currentPage}
+                pageSize={pageSize}
+                sortColumn={sortColumn}
+              />
+              <Pagination
+                itemsCount={count}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                onPageChange={this.handlePageChange}
                 onNext={this.handleNext}
                 onPrev={this.handlePrev}
               />

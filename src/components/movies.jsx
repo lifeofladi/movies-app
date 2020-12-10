@@ -1,37 +1,45 @@
 /** @format */
-
 import React, { Component } from 'react';
 import Like from './like';
-import Pagination from './pagination';
 import { paginate } from '../utils/paginate';
 
 class Movies extends Component {
+  itemSort = path => {
+    //clone sortColumn object (you should not mutate state properties directly)
+    const sortColumn = { ...this.props.sortColumn };
+    //toggle order between asc and desc
+    if (sortColumn.path === path)
+      sortColumn.order = sortColumn.order === 'asc' ? 'desc' : 'asc';
+    else {
+      sortColumn.path = path;
+      sortColumn.order = 'asc';
+    }
+    this.props.onSort(sortColumn);
+  };
+
   render() {
     const {
-      movies: allMovies,
+      sortedMovies,
       pageSize,
       currentPage,
-      count,
-      onPageChange,
+      itemsCount,
       onDelete,
       onLike,
-      onNext,
-      onPrev,
     } = this.props;
 
     //New array of movies objects to paginate from
-    const movies = paginate(allMovies, currentPage, pageSize);
+    const movies = paginate(sortedMovies, currentPage, pageSize);
 
-    if (!count) return null;
+    if (!itemsCount) return null;
     return (
       <React.Fragment>
         <table className='table'>
           <thead className='thead-dark'>
             <tr>
-              <th>Title</th>
-              <th>Genre</th>
-              <th>Stock</th>
-              <th>Rate</th>
+              <th onClick={() => this.itemSort('title')}>Title</th>
+              <th onClick={() => this.itemSort('genre.name')}>Genre</th>
+              <th onClick={() => this.itemSort('numberInStock')}>Stock</th>
+              <th onClick={() => this.itemSort('dailyRentalRate')}>Rate</th>
               <th />
               <th />
             </tr>
@@ -58,14 +66,6 @@ class Movies extends Component {
             ))}
           </tbody>
         </table>
-        <Pagination
-          count={count}
-          pageSize={pageSize}
-          currentPage={currentPage}
-          onPageChange={onPageChange}
-          onNext={onNext}
-          onPrev={onPrev}
-        />
       </React.Fragment>
     );
   }
