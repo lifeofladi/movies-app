@@ -1,21 +1,29 @@
 /** @format */
 
 import React from 'react';
+import { NavLink, Link } from 'react-router-dom';
 
-const NavBar = props => {
-  const { count } = props;
-  const message = (
-    <span>
-      There are <span className='badge badge-pill badge-primary'> {count}</span>{' '}
-      movies in the database!
-    </span>
-  );
-
+const NavBar = () => {
   return (
-    <nav className='navbar navbar-light bg-light'>
-      <a href='!#' className='navbar-brand'>
-        {count === 0 ? 'There are no more movies in the database!' : message}
-      </a>
+    <nav className='navbar navbar-expand-lg navbar-light bg-light'>
+      <Link to='/' className='navbar-brand'>
+        Vidly
+      </Link>
+      <div className='collapse navbar-collapse'>
+        <div className='navbar-nav'>
+          <NavLink className='nav-link nav-item' to='/movies'>
+            Movies
+          </NavLink>
+
+          <NavLink className='nav-link nav-item' to='/customers'>
+            Customers
+          </NavLink>
+
+          <NavLink className='nav-link nav-item' to='/rentals'>
+            Rentals
+          </NavLink>
+        </div>
+      </div>
     </nav>
   );
 };
