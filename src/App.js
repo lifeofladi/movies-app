@@ -7,6 +7,7 @@ import NotFound from './components/notFound';
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
+import MovieForm from './components/movieForm';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       <NavBar />
       <main className='container'>
         <Switch>
+          <Route path='/movies/:title/:id' component={MovieForm} />
           <Route path='/movies' component={Movies} />
           <Route path='/customers' component={Customers} />
           <Route path='/rentals' component={Rentals} />
