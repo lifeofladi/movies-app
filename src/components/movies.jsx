@@ -61,24 +61,22 @@ class Movies extends Component {
     this.setState({ sortColumn });
   };
 
-  render() {
-    const {
-      movies,
-      genres,
-      pageSize,
-      currentPage,
-      selectedGenre,
-      sortColumn,
-    } = this.state;
-
+  getData = () => {
+    const { movies, selectedGenre, sortColumn } = this.state;
     //Array of movies based on selected genre.
     const filtered =
       selectedGenre && selectedGenre._id
         ? movies.filter(m => m.genre._id === selectedGenre._id)
         : movies;
-    const count = filtered.length;
+
     //sort by title(default)
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+
+    return { count: filtered.length, data: sorted, sortColumn, selectedGenre };
+  };
+  render() {
+    const { genres, pageSize, currentPage } = this.state;
+    const { count, data: sorted, sortColumn, selectedGenre } = this.getData();
 
     return (
       <React.Fragment>
