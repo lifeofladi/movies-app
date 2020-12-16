@@ -1,9 +1,4 @@
-/**
- * /* eslint-disable jsx-a11y/anchor-has-content
- *
- * @format
- */
-
+/** @format */
 import React from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';

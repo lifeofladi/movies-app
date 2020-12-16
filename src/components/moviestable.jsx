@@ -2,20 +2,32 @@
 import React, { Component } from 'react';
 import Like from './like';
 import { paginate } from '../utils/paginate';
+import Table from './table';
 
 class MoviesTable extends Component {
-  itemSort = path => {
-    //clone sortColumn object (you should not mutate state properties directly)
-    const sortColumn = { ...this.props.sortColumn };
-    //toggle order between asc and desc
-    if (sortColumn.path === path)
-      sortColumn.order = sortColumn.order === 'asc' ? 'desc' : 'asc';
-    else {
-      sortColumn.path = path;
-      sortColumn.order = 'asc';
-    }
-    this.props.onSort(sortColumn);
-  };
+  columns = [
+    { path: 'title', label: 'Title' },
+    { path: 'genre.name', label: 'Genre' },
+    { path: 'numberInStock', label: 'Stock' },
+    { path: 'dailyRentalRate', label: 'Rate' },
+    {
+      key: 'like',
+      content: movie => (
+        <Like liked={movie.liked} onClick={() => this.props.onLike(movie)} />
+      ),
+    },
+    {
+      key: 'delete',
+      content: movie => (
+        <button
+          onClick={() => this.props.onDelete(movie)}
+          className='btn btn-danger'
+        >
+          Delete
+        </button>
+      ),
+    },
+  ];
 
   render() {
     const {
@@ -23,8 +35,8 @@ class MoviesTable extends Component {
       pageSize,
       currentPage,
       itemsCount,
-      onDelete,
-      onLike,
+      sortColumn,
+      onSort,
     } = this.props;
 
     //New array of movies objects to paginate from
@@ -32,41 +44,12 @@ class MoviesTable extends Component {
 
     if (!itemsCount) return null;
     return (
-      <React.Fragment>
-        <table className='table'>
-          <thead className='thead-dark'>
-            <tr>
-              <th onClick={() => this.itemSort('title')}>Title</th>
-              <th onClick={() => this.itemSort('genre.name')}>Genre</th>
-              <th onClick={() => this.itemSort('numberInStock')}>Stock</th>
-              <th onClick={() => this.itemSort('dailyRentalRate')}>Rate</th>
-              <th />
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {movies.map(movie => (
-              <tr key={movie._id}>
-                <td>{movie.title}</td>
-                <td>{movie.genre.name}</td>
-                <td>{movie.numberInStock}</td>
-                <td>{movie.dailyRentalRate}</td>
-                <td>
-                  <Like liked={movie.liked} onClick={() => onLike(movie)} />
-                </td>
-                <td>
-                  <button
-                    onClick={() => onDelete(movie)}
-                    className='btn btn-danger'
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </React.Fragment>
+      <Table
+        columns={this.columns}
+        sortColumn={sortColumn}
+        data={movies}
+        onSort={onSort}
+      />
     );
   }
 }
