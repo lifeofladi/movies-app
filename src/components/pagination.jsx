@@ -2,6 +2,7 @@
 import React from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const Pagination = props => {
   const {
@@ -23,8 +24,8 @@ const Pagination = props => {
     <nav>
       <ul className='pagination'>
         <li className='page-item'>
-          <a
-            href='!#'
+          <Link
+            to=''
             className='page-link'
             onClick={() =>
               numPages.length >= currentPage && currentPage !== 1
@@ -33,33 +34,33 @@ const Pagination = props => {
             }
           >
             <i className='fa fa-angle-double-left' aria-hidden='true'></i>
-          </a>
+          </Link>
         </li>
         {numPages.map(page => (
           <li
             key={page}
             className={page === currentPage ? 'page-item active' : 'page-item'}
           >
-            <a
-              href='!#'
+            <Link
+              to=''
               className='page-link'
               onClick={() => onPageChange(page)}
               style={{ cursor: 'pointer' }}
             >
               {page}
-            </a>
+            </Link>
           </li>
         ))}
         <li className='page-item'>
-          <a
-            href='!#'
+          <Link
+            to=''
             className='page-link'
             onClick={() =>
               numPages.length !== currentPage ? onNext(currentPage) : null
             }
           >
             <i className='fa fa-angle-double-right' aria-hidden='true'></i>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>

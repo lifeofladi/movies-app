@@ -10,19 +10,20 @@ const NavBar = () => {
         Vidly
       </Link>
       <div className='collapse navbar-collapse'>
-        <div className='navbar-nav'>
+        <div className='navbar-nav '>
           <NavLink className='nav-link nav-item' to='/movies'>
             Movies
           </NavLink>
-
           <NavLink className='nav-link nav-item' to='/customers'>
             Customers
           </NavLink>
-
           <NavLink className='nav-link nav-item' to='/rentals'>
             Rentals
           </NavLink>
         </div>
+        <button type='button' className='btn btn-outline-primary ml-auto'>
+          <NavLink to='/login'>Login</NavLink>
+        </button>
       </div>
     </nav>
   );
